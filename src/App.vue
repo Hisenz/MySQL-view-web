@@ -1,6 +1,11 @@
 <template>
   <navigation/>
-  <DataSourceInfo/>
+  <el-row>
+    <el-col :span="3"><DataSourceInfo/></el-col>
+    <el-col :span="4">
+
+    </el-col>
+  </el-row>
 </template>
 
 <style>
