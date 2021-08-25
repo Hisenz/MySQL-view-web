@@ -1,19 +1,11 @@
 <template>
   <el-menu default-active="1" class="el-menu-vertical-demo" @open="handleOpen" @close="handleClose"
            :collapse="isCollapse" @focus="isCollapse = false" @blur="isCollapse = true">
-    <el-menu-item index="1">
+    <el-menu-item :key="dataSource" v-for="(dataSource, index) in dataSourceInfos" :index="index + ''">
       <i class="el-icon-menu"></i>
-      <template #title>导航一</template>
+      <template #title>{{ dataSource.name }}</template>
     </el-menu-item>
-    <el-menu-item index="2">
-      <i class="el-icon-menu"></i>
-      <template #title>导航二</template>
-    </el-menu-item>
-    <el-menu-item index="3" disabled>
-      <i class="el-icon-document"></i>
-      <template #title>导航三</template>
-    </el-menu-item>
-    <el-menu-item index="4">
+    <el-menu-item index="4" @click="showDiag = true">
       <i class="el-icon-circle-plus-outline"></i>
       <template #title>添加</template>
     </el-menu-item>
@@ -21,13 +13,13 @@
   <el-dialog title="数据库连接信息" v-model="showDiag">
     <el-form :model="dataSourceInfoTemp" :rules="rules" ref="dataSourceInfoTemp">
       <el-form-item label="连接名称" label-width="120px" prop="name">
-        <el-input v-model="dataSourceInfoTemp.name" autocomplete="off" ></el-input>
+        <el-input v-model="dataSourceInfoTemp.name" autocomplete="off"></el-input>
       </el-form-item>
       <el-form-item label="用户名" label-width="120px">
-        <el-input v-model="dataSourceInfoTemp.username" autocomplete="off" ></el-input>
+        <el-input v-model="dataSourceInfoTemp.username" autocomplete="off"></el-input>
       </el-form-item>
       <el-form-item label="密码" label-width="120px">
-        <el-input type="password" v-model="dataSourceInfoTemp.password" autocomplete="off" ></el-input>
+        <el-input type="password" v-model="dataSourceInfoTemp.password" autocomplete="off"></el-input>
       </el-form-item>
       <el-form-item label="驱动" label-width="120px">
         <el-input v-model="dataSourceInfoTemp.driver" autocomplete="off" :disabled="true"></el-input>
@@ -38,7 +30,7 @@
     </el-form>
     <template #footer>
     <span class="dialog-footer">
-      <el-button @click="dialogFormVisible = false">取 消</el-button>
+      <el-button @click="showDiag = false">取 消</el-button>
       <el-button type="primary" @click="appendDataSource">确 定</el-button>
       <el-button type="primary" @click="testConnect">测 试</el-button>
     </span>
@@ -52,7 +44,7 @@ export default {
   data() {
     return {
       isCollapse: false,
-      showDiag: true,
+      showDiag: false,
       dataSourceInfos: [],
       dataSourceInfoTemp: {
         name: "",
@@ -62,16 +54,11 @@ export default {
         url: ""
       },
       rules: {
-        name: [
-          {
-            required: true, message: '请输入数据库连接名', trigger: 'blur'
-          }, {
-            min: 3,
-            max: 5,
-            message: '长度在 3 到 5 个字符',
-            trigger: 'blur'
-          }
-        ]
+        name: [{
+          required: true, message: '请输入数据库连接名', trigger: 'blur'
+        }, {
+          min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur'
+        }]
       }
     }
   },
@@ -96,6 +83,9 @@ export default {
     appendDataSource() {
       this.$api.DataSourceInfoApi.append(this.dataSourceInfoTemp).then(response => {
         this.responseMsgShow(response, "添加数据库信息")
+        if (response.data.result) {
+          this.showDiag = false
+        }
       })
     },
     responseMsgShow(response, operation) {
