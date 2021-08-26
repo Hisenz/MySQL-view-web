@@ -34,6 +34,7 @@
       </el-form>
       <el-button type="primary" @click="updateDataSource">修 改</el-button>
       <el-button type="danger" @click="deleteDataSource">删 除</el-button>
+      <el-button type="success" @click="goTo(currentDataSource)">前往</el-button>
     </el-col>
   </el-row>
   <el-menu default-active="1" class="el-menu-vertical-demo" @open="handleOpen" @close="handleClose"
@@ -105,6 +106,11 @@ export default {
     this.refresh()
   },
   methods: {
+    goTo(info) {
+      this.$router.push({
+        path: `/database/${info.id}`,
+      })
+    },
     refresh() {
       this.$api.DataSourceInfoApi.getList().then(resp => {
         console.log(resp)
