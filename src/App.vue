@@ -1,11 +1,9 @@
 <template>
   <navigation/>
-  <el-row>
-    <el-col :span="3"><DataSourceInfo/></el-col>
-    <el-col :span="4">
-
-    </el-col>
-  </el-row>
+  <div>
+    <router-link to="/"></router-link>
+  </div>
+  <router-view/>
 </template>
 
 <style>
@@ -34,8 +32,8 @@ body {
 </style>
 <script>
 import Navigation from "@/components/navigation";
-import DataSourceInfo from "@/components/DataSourceInfo";
+
 export default {
-  components: {DataSourceInfo, Navigation}
+  components: { Navigation}
 }
 </script>

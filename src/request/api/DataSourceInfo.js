@@ -7,10 +7,7 @@ const DataSourceInfoApi = {
     getList() {
         return axios.get("/dataSource")
     },
-    append(params) {
-        return axios.put("/dataSource", params)
-    },
-    update(params) {
+    appendOrUpdate(params) {
         return axios.post("/dataSource", params)
     },
     delete(id) {
