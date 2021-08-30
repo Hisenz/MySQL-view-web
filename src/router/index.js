@@ -11,7 +11,7 @@ const routes = [
         name: 'Home',
         component: DataSourceInfo
     }, {
-        path: "/database/:id",
+        path: "/database/:name",
         name: 'DatabaseView',
         component: Database
     }, {

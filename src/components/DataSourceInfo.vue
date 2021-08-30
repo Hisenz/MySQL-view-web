@@ -108,7 +108,7 @@ export default {
   methods: {
     goTo(info) {
       this.$router.push({
-        path: `/database/${info.id}`,
+        path: `/database/${info.name}`,
       })
     },
     refresh() {
